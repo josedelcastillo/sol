@@ -41,7 +41,7 @@ def withdraw(item_id: int, qty: int) -> Item:
     item = _items.get(item_id)
     if item is None:
         raise ItemNotFoundError(item_id)
-    if qty >= item.qty:
+    if qty > item.qty:
         raise InsufficientStockError(f"Stock insuficiente: disponible {item.qty}")
     item.qty -= qty
     return item
