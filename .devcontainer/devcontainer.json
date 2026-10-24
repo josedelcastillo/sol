@@ -1,0 +1,6 @@
+{
+  "name": "PUCP-LAB-M1",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "postCreateCommand": "make install",
+  "forwardPorts": [8000]
+}

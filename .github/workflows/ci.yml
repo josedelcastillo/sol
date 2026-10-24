@@ -1,0 +1,24 @@
+# Pipeline de integración continua.
+# GitHub lo ejecuta cada vez que se abre o actualiza un pull request hacia main.
+name: CI
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  # Job 1: revisa el estilo del código (lint) y ejecuta los tests.
+  build-and-test:
+    runs-on: ubuntu-latest # máquina virtual de GitHub donde corre el job
+    steps:
+      # Descarga el código de la rama del pull request.
+      - uses: actions/checkout@v4
+      # Instala Python 3.12 y guarda en caché las librerías descargadas.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      # Instala las librerías de la aplicación y de desarrollo.
+      - run: pip install -r requirements.txt -r requirements-dev.txt
+      # Lint: falla si el código no respeta el estándar del equipo.
+      - run: ruff check .
+      # Tests: falla si un test no pasa o si la cobertura es menor a 80 %.
+      - run: pytest --cov=app --cov-fail-under=80
